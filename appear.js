@@ -1,5 +1,6 @@
-/* appear.js 1.2.1 */
-(function(window){
+// https://github.com/creativelive/appear
+
+appear = (function(){
   'use strict';
   var scrollLastPos = null, scrollTimer = 0, scroll = {};
 
@@ -8,7 +9,6 @@
     if ( scrollLastPos != null ){
       scroll.velocity = newPos - scrollLastPos;
       scroll.delta = (scroll.velocity >= 0) ? scroll.velocity : (-1 * scroll.velocity);
-
     }
     scrollLastPos = newPos;
     if(scrollTimer){
@@ -42,7 +42,6 @@
         return function () {
           var self = this, args = arguments;
           clearTimeout(timer);
-
           timer = setTimeout(function () {
             fn.apply(self, args);
           }, delay);
@@ -84,7 +83,6 @@
       }
 
       function removeListeners() {
-
         removeEventListener('scroll', checkAppear, false);
         removeEventListener('resize', checkAppear, false);
       }
@@ -93,7 +91,6 @@
         if(done) {
           return;
         }
-
         elements.forEach(function(n, i){
           if(n && viewable(n, opts.bounds)) {
             // only act if the element is eligible to reappear
@@ -102,7 +99,6 @@
               reappear[i] = false;
               // increment the count of appeared items
               appeared++;
-
               // call the appear fn
               if(opts.appear) {
                 opts.appear(n);
@@ -120,7 +116,6 @@
               }
               // increment the dissappeared count
               disappeared++;
-
               // if not tracking reappears, need to remove node here
               if(!opts.reappear) {
                 // stop tracking this node, which is now viewable
@@ -173,7 +168,7 @@
         }
       }
 
-      var appear = function(obj) {
+      return function(obj) {
         obj = obj || {};
 
         // assign the fn to execute when a node is visible
@@ -244,12 +239,6 @@
         };
 
       };
-
-      if (typeof module !== 'undefined' && typeof module.exports !== 'undefined') {
-        module.exports = appear;
-      } else {
-        window.appear = appear;
-      }
     }()(obj));
   };
-}(this));
+}());
